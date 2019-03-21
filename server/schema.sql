@@ -6,8 +6,8 @@ USE chat;
 
 CREATE TABLE messages(
   MessagesID INT not null,
-  Messages VARCHAR(255) NOT NULL,
-  Lobby VARCHAR(20),
+  userMessage VARCHAR(255) NOT NULL,
+  roomname VARCHAR(20),
   primary key (MessagesID)
 );
 

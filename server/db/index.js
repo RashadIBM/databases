@@ -9,8 +9,4 @@ var connection = mysql.createConnection({
   password : '',
 });
 
-connection.connect();
-
-connection.end();
-
 module.exports.connection = connection;

@@ -9,9 +9,9 @@ CREATE TABLE messages(
   userName VARCHAR(16) NOT NULL,
   userMessage VARCHAR(255) NOT NULL,
   roomName VARCHAR(20),
+  dateCreated DATETIME DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (MessagesID)
 );
-
 
 CREATE TABLE users(
   UserID INT NOT NULL auto_increment,

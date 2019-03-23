@@ -10,6 +10,10 @@ router.get('/users', controller.users.get);
 
 router.post('/users', controller.users.post);
 
+// router.post('/?order=createdAt', controller.order.get);
+//friends
+//rooms
+//?order=createdAt
 
 module.exports = router;
 

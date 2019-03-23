@@ -2,19 +2,35 @@ var models = require('../models');
 
 module.exports = {
   messages: {
+
+    // a function which handles a get request for all messages
     get: function (req, res) {
       models.messages.get((err, obj) =>{
         if (err) {
-          throw err;
+          res.send(err);
+        } else {
+          var results = obj.map((val) =>{
+            return {
+              text: val.userMessage,
+              roomname: val.roomName,
+              username: val.userName
+            };
+          });
+          res.send({results});
+        }
+      });
+    },
+
+    // a function which handles posting a message to the database
+    post: function (req, res) {
+      models.messages.post(req.body, (err, obj) => {
+        if (err) {
+          res.send(err);
         } else {
           res.send(obj);
         }
       });
-    }, // a function which handles a get request for all messages
-    post: function (req, res) {
-      models.messages.post(req.body);
-      res.end();
-    } // a function which handles posting a message to the database
+    }
   },
 
   users: {

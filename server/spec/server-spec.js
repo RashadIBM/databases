@@ -132,6 +132,12 @@ describe('Persistent Node Chat Server', function() {
           json: { username: 'Three Amigos' }
         }, function () {
           var queryString = 'SELECT * FROM users'; //this was NOT changed
+          var testQueryString = `
+          SELECT * FROM users
+            INNER JOIN messages ON users.id = messages.userId
+            INNER JOIN roomname ON messages.roomNameId = roomname.id
+          WHERE Users.
+          `;
           var queryArgs = [];
 
           dbConnection.query(queryString, queryArgs, function(err, users) {

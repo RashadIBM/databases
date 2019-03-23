@@ -7,7 +7,7 @@ module.exports = {
       var queryString = 'SELECT * FROM messages';
       db.connection.query(queryString, function (error, rows) {
         if (error) {
-          throw error;
+          cb(error);
         } else {
           cb(null, rows);
         }
@@ -16,12 +16,14 @@ module.exports = {
     },
 
     // a function which can be used to insert a message into the database
-    post: function (obj) {
+    post: function (obj, cb) {
       var queryString = `INSERT INTO messages (userName, userMessage, roomName)
-        VALUES("${obj.username}", "${obj.message}", "${obj.roomname}");`;
+        VALUES("${obj.username}", "${obj.text}", "${obj.roomname}");`;
       db.connection.query(queryString, function (error) {
         if (error) {
-          throw error;
+          cb(error);
+        } else {
+          cb(null, obj);
         }
       });
     }

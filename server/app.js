@@ -8,6 +8,9 @@ var parser = require('body-parser');
 // Router
 var router = require('./routes.js');
 
+// CORS
+var cors = require('cors');
+
 var app = express();
 module.exports.app = app;
 
@@ -17,6 +20,8 @@ app.set('port', 3000);
 // Logging and parsing
 app.use(morgan('dev'));
 app.use(parser.json());
+
+app.use(cors());
 
 // Set up our routes
 app.use('/classes', router);

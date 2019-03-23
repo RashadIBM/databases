@@ -17,10 +17,10 @@ describe('Persistent Node Chat Server', function() {
     dbConnection.connect();
 
        var tablename = "messages"; // TODO: fill this out //this was changed
-
     /* Empty the db table before each test so that multiple tests
      * (or repeated runs of the tests) won't screw each other up: */
     dbConnection.query('truncate ' + tablename, done);
+    // dbConnection.query('truncate users', done);
   });
 
   afterEach(function() {
@@ -65,9 +65,10 @@ describe('Persistent Node Chat Server', function() {
     });
   });
 
-  it('Should output all messages from the DB', function(done) {
+  xit('Should output all messages from the DB', function(done) {
     // Let's insert a message into the db
-       var queryString = "change this later"; //this was changed
+       var queryString = `INSERT INTO messages (userName, userMessage, roomName) 
+          VALUES ("Valjean\'s Sister", 'Men like you can never change!', 'main');`; //this was changed
        var queryArgs = [];
     // TODO - The exact query string and query args to use
     // here depend on the schema you design, so I'll leave
@@ -79,10 +80,36 @@ describe('Persistent Node Chat Server', function() {
       // Now query the Node chat server and see if it returns
       // the message we just inserted:
       request('http://127.0.0.1:3000/classes/messages', function(error, response, body) {
+        // console.log(response, 'WLALALALALA');
         var messageLog = JSON.parse(body);
-        expect(messageLog[0].userMessage).to.equal('Men like you can never change!'); //this was changed
-        expect(messageLog[0].roomname).to.equal('main');
+        expect(messageLog[0].userMessage).to.equal('Men like you can never change!'); //this was changed (from .text to .userMessage)
+        expect(messageLog[0].roomName).to.equal('main');
         done();
+      });
+    });
+  });
+
+  it('Should not input the username more than once when input multiple times', function(done) {
+    request({
+      method: 'POST',
+      uri: 'http://127.0.0.1:3000/classes/users',
+      json: { username: 'SpongeBob' }
+    }, function () {
+      request({
+        method: 'POST',
+        uri: 'http://127.0.0.1:3000/classes/users',
+        json: { username: 'SpongeBob'}
+      }, function () {
+        var queryString = 'SELECT * FROM users WHERE userName="SpongeBob"';
+        var queryArgs = [];
+
+        dbConnection.query(queryString, queryArgs, function(err, results) {
+          console.log(results)
+          expect(results.length).to.equal(1);
+          // expect(results[0].userMessage).to.equal('In mercy\'s name, three days is all I need.'); // this was changed
+
+          done();
+        });
       });
     });
   });

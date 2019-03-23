@@ -5,18 +5,19 @@ CREATE DATABASE chat;
 USE chat;
 
 CREATE TABLE messages(
-  MessagesID INT not null AUTO_INCREMENT,
+  MessagesID INT NOT NULL auto_increment,
   userName VARCHAR(16) NOT NULL,
   userMessage VARCHAR(255) NOT NULL,
   roomName VARCHAR(20),
-  primary key (MessagesID)
+  PRIMARY KEY (MessagesID)
 );
 
--- DESCRIBE messages;
+
 CREATE TABLE users(
-  UserID INT not null AUTO_INCREMENT,
+  UserID INT NOT NULL auto_increment,
   UserName VARCHAR(16) NOT NULL,
-  primary key (UserID)
+  PRIMARY KEY (UserID),
+  UNIQUE KEY(userName)
 );
 
 -- /*  Execute this file from the command line by typing:

@@ -3,14 +3,15 @@ var db = require('../db');
 module.exports = {
   messages: {
     // a function which produces all the messages
-    get: function () {
+    get: function (cb) {
       var queryString = 'SELECT * FROM messages';
       db.connection.query(queryString, function (error, rows) {
         if (error) {
           throw error;
+        } else {
+          cb(null, rows);
         }
         // console.log('******* ROWS ******* \n', rows, '******* ROWS *******\n');
-        return rows;
       });
     },
 
@@ -27,11 +28,13 @@ module.exports = {
   },
 
   users: {
-    get: function (obj) {
+    get: function (cb) {
       var queryString = 'SELECT userName FROM users;';
       db.connection.query(queryString, function (error, rows) {
         if (error) {
           throw error;
+        } else {
+          cb(null, rows);
         }
       });
     },

@@ -3,10 +3,13 @@ var models = require('../models');
 module.exports = {
   messages: {
     get: function (req, res) {
-      // console.log(typeof req, '*****req****'); // req.body is blank
-      models.messages.get();
-      // console.log(res.body, '****123123123123*****');
-      res.end();
+      models.messages.get((err, obj) =>{
+        if (err) {
+          throw err;
+        } else {
+          res.send(obj);
+        }
+      });
     }, // a function which handles a get request for all messages
     post: function (req, res) {
       models.messages.post(req.body);
@@ -17,8 +20,13 @@ module.exports = {
   users: {
     // Ditto as above
     get: function (req, res) {
-      // console.log(req);
-
+      models.users.get((err, obj) =>{
+        if (err) {
+          throw err;
+        } else {
+          res.send(obj);
+        }
+      });
     },
     post: function (req, res) {
       models.users.post(req.body);

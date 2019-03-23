@@ -1,7 +1,7 @@
 var Friends = {
 
 
-  _data: new Set,
+  _data: new Set, // Will need to post and get friends to database in order to then store on client
 
   items: function() {
     return _.chain([...Friends._data]);
@@ -20,5 +20,5 @@ var Friends = {
       callback(true);
     }
   }
-  
+
 };

@@ -13,10 +13,12 @@ module.exports = {
             return {
               text: val.userMessage,
               roomname: val.roomName,
-              username: val.userName
+              username: val.userName,
+              objectId: val.MessagesID
             };
           });
           res.send({results});
+          // res.send({results: obj}); // Need to see sql data
         }
       });
     },

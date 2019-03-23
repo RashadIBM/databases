@@ -10,10 +10,9 @@ router.get('/users', controller.users.get);
 
 router.post('/users', controller.users.post);
 
-// router.post('/?order=createdAt', controller.order.get);
-//friends
-//rooms
-//?order=createdAt
+// Client errors out when uncommented, maybe the routes need to be built first
+// router.get('/friends', controller.friends.get);
+// router.post('/friends', controller.friends.post);
 
 module.exports = router;
 

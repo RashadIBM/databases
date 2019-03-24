@@ -6,10 +6,12 @@ module.exports = {
     // a function which handles a get request for all messages
     get: function (req, res) {
       models.messages.get((err, obj) =>{
+        // console.log(obj, 'CONTROLLER OBJECT ******218517398429852953958356923865932')
         if (err) {
           res.send(err);
         } else {
           var results = obj.map((val) =>{
+            console.log(val, 'asyd9asydasydasudausfaufaiugfiasugfaisugfiasugfsagufiaugsfausgfasgfilusagflasugfliausgflisaugf');
             return {
               text: val.userMessage,
               roomname: val.roomName,
@@ -19,7 +21,6 @@ module.exports = {
             };
           });
           res.send({results});
-          // res.send({results: obj}); // Need to see sql data
         }
       });
     },
@@ -30,7 +31,7 @@ module.exports = {
         if (err) {
           res.send(err);
         } else {
-          res.send(obj);
+          res.send(obj.Instance);
         }
       });
     }

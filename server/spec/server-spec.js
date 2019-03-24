@@ -117,32 +117,26 @@ describe('Persistent Node Chat Server', function() {
       uri: 'http://127.0.0.1:3000/classes/users',
       json: { username: 'Uno User' }
     }, function () {
-      // Post a message to the node chat server:
       request({
         method: 'POST',
         uri: 'http://127.0.0.1:3000/classes/users',
         json: { username: 'Dos Users' }
       }, function () {
-        // Post a message to the node chat server:
         request({
           method: 'POST',
           uri: 'http://127.0.0.1:3000/classes/users',
           json: { username: 'Three Amigos' }
         }, function () {
           var queryString = 'SELECT * FROM users'; //this was NOT changed
-          var testQueryString = `
-          SELECT * FROM users
-            INNER JOIN messages ON users.id = messages.userId
-            INNER JOIN roomname ON messages.roomNameId = roomname.id
-          WHERE Users.
-          `;
           var queryArgs = [];
 
           dbConnection.query(queryString, queryArgs, function(err, users) {
-            expect(users.length).to.equal(3);
-            // var usersResults = users.sort((a, b) => a.UserID - b.UserId);
+            var usersResults = users.sort((a, b) => a.UserID - b.UserID);
             // console.log('*** Username Test Results ***\n', usersResults, '*** *** \n');
-            // expect(usersResults[2].UserName).to.equal('Three Amigos');
+            expect(users.length).to.equal(3);
+            expect(usersResults[0].UserName).to.equal('Uno User');
+            expect(usersResults[1].UserName).to.equal('Dos Users');
+            expect(usersResults[2].UserName).to.equal('Three Amigos');
             done();
           });
         });

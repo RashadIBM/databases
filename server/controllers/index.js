@@ -14,7 +14,8 @@ module.exports = {
               text: val.userMessage,
               roomname: val.roomName,
               username: val.userName,
-              objectId: val.MessagesID
+              objectId: val.MessagesID,
+              createdAt: val.createdAt
             };
           });
           res.send({results});

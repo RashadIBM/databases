@@ -23,6 +23,7 @@ var Messages = {
     if (Object.keys(Messages._data).length !== length) {
       callback(Messages.items());
     }
+
   },
 
   _conform: function(message) {
@@ -32,5 +33,5 @@ var Messages = {
     message.roomname = message.roomname || '';
     return message;
   }
-  
+
 };

@@ -9,7 +9,7 @@ CREATE TABLE messages(
   userName VARCHAR(16) NOT NULL,
   userMessage VARCHAR(255) NOT NULL,
   roomName VARCHAR(20),
-  dateCreated DATETIME DEFAULT CURRENT_TIMESTAMP,
+  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (MessagesID)
 );
 
@@ -21,7 +21,7 @@ CREATE TABLE users(
 );
 
 -- /*  Execute this file from the command line by typing:
---  *    mysql -u root < server/schema.sql
+--  *    mysql -u root - p < server/schema.sql
 --  *  to create the database and the tables.*/
 -- mysql -u root
--- source server/scheme.sql;
+-- source /server/scheme.sql;

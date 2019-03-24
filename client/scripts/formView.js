@@ -19,7 +19,8 @@ var FormView = {
 
     Parse.create(message, (data) => {
       _.extend(message, data);
-      Messages.add(message, MessagesView.render);
+      // Messages.add(message, MessagesView.render); // Adds message twice
+      App.fetch(); // Call this instead to update
     });
   },
 

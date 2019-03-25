@@ -100,9 +100,7 @@ describe('Persistent Node Chat Server', function() {
       }, function () {
         var queryString = 'SELECT * FROM users WHERE userName="SpongeBob"';
         var queryArgs = [];
-
         dbConnection.query(queryString, queryArgs, function(err, results) {
-          // console.log('*** Username Test Results ***', results, '*** *** \n');
           expect(results.length).to.equal(1);
           done();
         });
@@ -127,7 +125,7 @@ describe('Persistent Node Chat Server', function() {
           uri: 'http://127.0.0.1:3000/classes/users',
           json: { username: 'Three Amigos' }
         }, function () {
-          var queryString = 'SELECT * FROM users'; //this was NOT changed
+          var queryString = 'SELECT * FROM users';
           var queryArgs = [];
 
           dbConnection.query(queryString, queryArgs, function(err, users) {

@@ -144,4 +144,33 @@ describe('Persistent Node Chat Server', function() {
       });
     });
   });
+
+  it('Should return all users with a GET request', function(done) {
+    request({
+      method: 'POST',
+      uri: 'http://127.0.0.1:3000/classes/users',
+      json: { username: 'Alphonse' }
+    }, function () {
+      request({
+        method: 'POST',
+        uri: 'http://127.0.0.1:3000/classes/users',
+        json: { username: 'Hope'}
+      }, function () {
+        var queryString = 'SELECT * FROM users'; //WHERE username="SpongeBob"';
+        var queryArgs = [];
+        request('http://127.0.0.1:3000/classes/users', function(error, response, body) {
+          if (error) {
+            console.log(error);
+            throw error;
+          }
+          var users = JSON.parse(body).map(val => val.username);
+          expect(users[0]).to.equal('Alphonse');
+          expect(users[1]).to.equal('Hope');
+          expect(users.length).to.equal(2);
+          done();
+        });
+
+      });
+    });
+  });
 });

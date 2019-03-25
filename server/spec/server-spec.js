@@ -44,12 +44,12 @@ describe('Persistent Node Chat Server', function() {
           roomname: 'Hello'
         }
       }, function () {
-        var queryString = 'SELECT * FROM messages'; //this was NOT changed
+        var queryString = 'SELECT * FROM messages';
         var queryArgs = [];
 
         dbConnection.query(queryString, queryArgs, function(err, results) {
           expect(results.length).to.equal(1);
-          expect(results[0].text).to.equal('In mercy\'s name, three days is all I need.'); // this was changed
+          expect(results[0].text).to.equal('In mercy\'s name, three days is all I need.');
 
           done();
         });
@@ -60,7 +60,7 @@ describe('Persistent Node Chat Server', function() {
   it('Should output all messages from the DB', function(done) {
     // Let's insert a message into the db
     var queryString = `INSERT INTO messages (username, text, roomname)
-          VALUES ("Valjean\'s Sister", 'Men like you can never change!', 'main');`; //this was changed
+          VALUES ("Valjean\'s Sister", 'Men like you can never change!', 'main');`;
     var queryArgs = [];
     // TODO - The exact query string and query args to use
     // here depend on the schema you design, so I'll leave
@@ -68,8 +68,8 @@ describe('Persistent Node Chat Server', function() {
 
     dbConnection.query(queryString, queryArgs, function(err) {
       if (err) {
-        // console.log('\n\n***Test2 ERROR***\n', err);
-        // throw err;
+        console.log('\n\n***Test2 ERROR***\n', err);
+        throw err;
       }
       // Now query the Node chat server and see if it returns
       // the message we just inserted:
@@ -79,7 +79,7 @@ describe('Persistent Node Chat Server', function() {
           throw error;
         }
         var messageLog = JSON.parse(body);
-        expect(messageLog.results[0].text).to.equal('Men like you can never change!'); //this was changed (from .text to .userMessage)
+        expect(messageLog.results[0].text).to.equal('Men like you can never change!');
         expect(messageLog.results[0].roomname).to.equal('main');
         done();
       });
@@ -97,7 +97,7 @@ describe('Persistent Node Chat Server', function() {
         uri: 'http://127.0.0.1:3000/classes/users',
         json: { username: 'SpongeBob'}
       }, function () {
-        var queryString = 'SELECT * FROM users'; //WHERE username="SpongeBob"';
+        var queryString = 'SELECT * FROM users';
         var queryArgs = [];
         dbConnection.query(queryString, queryArgs, function(err, results) {
           if (err) {
@@ -156,7 +156,7 @@ describe('Persistent Node Chat Server', function() {
         uri: 'http://127.0.0.1:3000/classes/users',
         json: { username: 'Hope'}
       }, function () {
-        var queryString = 'SELECT * FROM users'; //WHERE username="SpongeBob"';
+        var queryString = 'SELECT * FROM users';
         var queryArgs = [];
         request('http://127.0.0.1:3000/classes/users', function(error, response, body) {
           if (error) {
@@ -169,8 +169,34 @@ describe('Persistent Node Chat Server', function() {
           expect(users.length).to.equal(2);
           done();
         });
-
       });
     });
   });
+
+  it('Should include a createdAt', function(done) {
+    request({
+      method: 'POST',
+      uri: 'http://127.0.0.1:3000/classes/users',
+      json: { username: 'New Genesis' }
+    }, function () {
+      request({
+        method: 'POST',
+        uri: 'http://127.0.0.1:3000/classes/users',
+        json: { username: 'Blue Ruin'}
+      }, function () {
+        var queryString = 'SELECT * FROM users';
+        var queryArgs = [];
+        request('http://127.0.0.1:3000/classes/users', function(error, response, body) {
+          if (error) {
+            console.log(error);
+            throw error;
+          }
+          var users = JSON.parse(body);
+          expect(users[0].createdAt.length).to.be.above(0);
+          done();
+        });
+      });
+    });
+  });
+
 });

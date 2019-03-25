@@ -8,12 +8,14 @@ module.exports = {
           return db.Messages.findAll();
         })
         .then((data) => {
+          console.log('\nModels data =>\n', data);
           let allData = data.map((row) => {
             return row.dataValues;
           });
           cb(null, allData);
         })
         .catch((err) => {
+          console.log('\nModels messages.get failed =>\n', err);
           cb(err);
           db.Messages.close();
         });

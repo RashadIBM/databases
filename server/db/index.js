@@ -19,38 +19,37 @@ const db = new Sequelize('chat', 'root', '', {
     timestamps: true
   }
 });
-module.exports = {
-  User: db.define('user', {
-    id: {
-      type: Sequelize.INTEGER,
-      field: "id",
-      autoIncrement: true,
-      primaryKey: true,
-    },
-    username: {
-      type: Sequelize.STRING(32),
-      // unique: true
-    }
-  }),
 
-  Message: db.define('message', {
-    username: Sequelize.STRING(32),
-    text: {
-      type: Sequelize.STRING(140),
-      allowNull: false
-    },
-    roomname: Sequelize.STRING(32),
-  })
-};
+const User = db.define('user', {
+  id: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  username: {
+    type: Sequelize.STRING(32),
+    unique: true
+  }
+});
+
+const Message = db.define('message', {
+  username: Sequelize.STRING(32),
+  text: {
+    type: Sequelize.STRING(140),
+    allowNull: false
+  },
+  roomname: Sequelize.STRING(32),
+});
 
 db.authenticate()
   .then(() => {
-    console.log('Connection has been established successfully.');
+    console.log('\n\n\n********** **********\nConnection has been established successfully.');
   })
   .catch(err => {
     console.error('Unable to connect to the database:', err);
   });
 
+// Message.sync({ force: true });
 // User.sync({ force: true })
 //   .then(() => {
 //     return User.create({ username: 'Jean Valjean' });
@@ -63,7 +62,8 @@ db.authenticate()
 //       console.log(person.username + ' exists');
 //     });
 //     db.close();
-//   })
-// Message.sync({ force: true });
+//   });
 
+module.exports.Message = Message;
+module.exports.User = User;
 

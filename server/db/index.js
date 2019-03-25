@@ -29,6 +29,14 @@ const User = db.define('user', {
   username: {
     type: Sequelize.STRING(32),
     unique: true
+  },
+  createdAt: {
+    type: Sequelize.DATE,
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP()')
+  },
+  updatedAt: {
+    type: Sequelize.DATE,
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP()')
   }
 });
 
@@ -39,6 +47,14 @@ const Message = db.define('message', {
     allowNull: false
   },
   roomname: Sequelize.STRING(32),
+  createdAt: {
+    type: Sequelize.DATE,
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP()')
+  },
+  updatedAt: {
+    type: Sequelize.DATE,
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP()')
+  }
 });
 
 db.authenticate()
@@ -48,21 +64,6 @@ db.authenticate()
   .catch(err => {
     console.error('Unable to connect to the database:', err);
   });
-
-// Message.sync({ force: true });
-// User.sync({ force: true })
-//   .then(() => {
-//     return User.create({ username: 'Jean Valjean' });
-//   })
-//   .then(() => {
-//     return User.findAll({ where: { username: 'Jean Valjean' } });
-//   })
-//   .then((user) => {
-//     user.forEach(function (person) {
-//       console.log(person.username + ' exists');
-//     });
-//     db.close();
-//   });
 
 module.exports.Message = Message;
 module.exports.User = User;

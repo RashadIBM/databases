@@ -3,21 +3,13 @@ var db = require('../db');
 module.exports = {
   messages: {
     get: (cb) => {
-      db.Messages.sync()
-        .then(() => {
-          return db.Messages.findAll();
-        })
+      db.Message.findAll()
         .then((data) => {
-          console.log('\nModels data =>\n', data);
-          let allData = data.map((row) => {
-            return row.dataValues;
-          });
+          let allData = data.map((row) => row.dataValues);
           cb(null, allData);
         })
         .catch((err) => {
-          console.log('\nModels messages.get failed =>\n', err);
           cb(err);
-          db.Messages.close();
         });
       // var queryString = 'SELECT * FROM messages';
       // db.connection.query(queryString, function (error, rows) {
@@ -30,20 +22,16 @@ module.exports = {
     },
 
     post: (msg, cb) => {
-      db.Message.sync()
-        .then(() => {
-          return db.Message.create({
-            username: `${msg.username}`,
-            text: `${msg.text}`,
-            roomname: `${msg.roomname}`
-          });
-        })
+      db.Message.create({
+        username: `${msg.username}`,
+        text: `${msg.text}`,
+        roomname: `${msg.roomname}`
+      })
         .then((aMsg) => {
           cb(null, aMsg);
         })
         .catch((err) => {
           cb(err);
-          db.Messages.close();
         });
       // var queryString = `INSERT INTO messages (userName, userMessage, roomName)
       //   VALUES("${obj.username}", "${obj.text}", "${obj.roomname}");`;
@@ -59,15 +47,13 @@ module.exports = {
 
   users: {
     get: (cb) => {
-      db.User.sync()
-        .then(() => {
-          return db.User.findAll();
-        })
+      db.User.findAll()
         .then((data) => {
-          let allMsgs = data.map((row) => {
-            return row.dataValues;
-          });
-          cb(null, allMsgs);
+          let allUsers = data.map((user) => user.dataValues);
+          cb(null, allUsers);
+        })
+        .catch((err) => {
+          cb(err);
         });
       // var queryString = 'SELECT userName FROM users;';
       // db.connection.query(queryString, function (error, rows) {
@@ -79,16 +65,15 @@ module.exports = {
       // });
     },
     post: function (obj, cb) {
-      db.User.sync()
-        .then(() => {
-          // Now instantiate an object and save it:
-          return db.User.create({
-            username: `${obj}`
-          });
-        })
-        .then((newUser => {
+      db.User.create({
+        username: `${obj}`
+      })
+        .then((newUser) => {
           cb(null, newUser);
-        }));
+        })
+        .catch((err) => {
+          cb(err);
+        });
       // .catch(function (err) {
       // db.User.close();
       // });

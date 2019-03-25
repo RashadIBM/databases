@@ -3,22 +3,11 @@ var models = require('../models');
 module.exports = {
   messages: {
     get: function (req, res) {
-      models.messages.get((err, obj) =>{
+      models.messages.get((err, results) =>{
         if (err) {
           res.send(err);
         } else {
-          // var results = obj.map((val) =>{
-          //   return {
-          //     text: val.userMessage,
-          //     roomname: val.roomName,
-          //     username: val.userName,
-          //     objectId: val.MessagesID,
-          //     createdAt: val.createdAt
-
-          //   };
-          // });
-          // res.send({results});
-          res.json(obj);
+          res.send({results});
         }
       });
     },
@@ -28,8 +17,7 @@ module.exports = {
         if (err) {
           res.send(err);
         } else {
-          // res.send(obj.Instance);
-          res.json(obj);
+          res.send(obj);
         }
       });
     }
@@ -39,22 +27,20 @@ module.exports = {
     get: function (req, res) {
       models.users.get((err, obj) =>{
         if (err) {
-          throw err;
+          res.send(err);
         } else {
-          // res.send(obj);
-          res.json(obj);
+          res.send(obj);
         }
       });
     },
     post: function (req, res) {
       models.users.post(req.body.username, (err, obj) => {
         if (err) {
-          console.log(err);
+          res.send(err);
         } else {
-          res.json(obj);
+          res.send(obj);
         }
       });
-      // res.end();
     }
   }
 };
